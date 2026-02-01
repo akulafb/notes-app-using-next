@@ -85,36 +85,37 @@ export default async function NotesPage() {
                     }.`}
               </CardDescription>
             </CardHeader>
-            <CardContent className="space-y-4">
+            <CardContent>
               {notes.length === 0 ? (
                 <div className="rounded-xl border border-white/30 bg-white/70 p-6 text-sm text-slate-600 shadow-sm backdrop-blur-sm dark:border-white/10 dark:bg-white/5 dark:text-slate-300">
                   Start by adding your first note.
                 </div>
               ) : (
-                <ul className="grid gap-4">
+                <ul className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
                   {notes.map((note) => (
                     <li
                       key={note.id}
-                      className="rounded-xl border border-white/30 bg-white/70 p-4 shadow-sm backdrop-blur-sm dark:border-white/10 dark:bg-white/5"
+                      className="group relative flex h-48 flex-col rounded-xl border border-white/30 bg-white/70 p-4 shadow-sm backdrop-blur-sm transition-all hover:shadow-md dark:border-white/10 dark:bg-white/5"
                     >
-                      <div className="flex items-start justify-between gap-4">
-                        <div className="space-y-2">
-                          <p className="text-sm font-semibold text-slate-900 dark:text-white">
-                            {note.title}
+                      <div className="flex flex-1 flex-col gap-2 overflow-hidden">
+                        <h3 className="line-clamp-2 text-sm font-semibold text-slate-900 dark:text-white">
+                          {note.title}
+                        </h3>
+                        {note.content && (
+                          <p className="line-clamp-4 flex-1 text-sm text-slate-600 dark:text-slate-300">
+                            {note.content}
                           </p>
-                          {note.content && (
-                            <p className="text-sm text-slate-600 dark:text-slate-300">
-                              {note.content}
-                            </p>
-                          )}
-                        </div>
-                        <form action={deleteNote}>
-                          <input type="hidden" name="id" value={note.id} />
-                          <Button type="submit" size="sm" variant="destructive">
-                            Delete
-                          </Button>
-                        </form>
+                        )}
                       </div>
+                      <form
+                        action={deleteNote}
+                        className="mt-3 flex justify-end opacity-0 transition-opacity group-hover:opacity-100"
+                      >
+                        <input type="hidden" name="id" value={note.id} />
+                        <Button type="submit" size="sm" variant="destructive">
+                          Delete
+                        </Button>
+                      </form>
                     </li>
                   ))}
                 </ul>
