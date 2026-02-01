@@ -14,7 +14,9 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
-import { createNote, deleteNote } from "./actions";
+import { createNote, deleteNote, reindexNotes } from "./actions";
+import { RAGSearch } from "./components/rag-search";
+import { RAGChat } from "./components/rag-chat";
 
 export default async function NotesPage() {
   const session = await getServerSession(authOptions);
@@ -56,23 +58,43 @@ export default async function NotesPage() {
         </div>
 
         <div className="grid gap-8 lg:grid-cols-[1.1fr_1.9fr]">
-          <Card className="border-white/20 bg-white/60 backdrop-blur-xl dark:border-white/10 dark:bg-white/10">
-            <CardHeader>
-              <CardTitle>New note</CardTitle>
-              <CardDescription>
-                Capture an idea and keep it safe.
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              <form action={createNote} className="grid gap-4">
-                <Input name="title" placeholder="Title" required />
-                <Textarea name="content" placeholder="Content" rows={5} />
-                <Button type="submit" className="justify-self-start">
-                  Add note
-                </Button>
-              </form>
-            </CardContent>
-          </Card>
+          <div className="space-y-6">
+            <Card className="border-white/20 bg-white/60 backdrop-blur-xl dark:border-white/10 dark:bg-white/10">
+              <CardHeader>
+                <CardTitle>New note</CardTitle>
+                <CardDescription>
+                  Capture an idea and keep it safe.
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <form action={createNote} className="grid gap-4">
+                  <Input name="title" placeholder="Title" required />
+                  <Textarea name="content" placeholder="Content" rows={5} />
+                  <Button type="submit" className="justify-self-start">
+                    Add note
+                  </Button>
+                </form>
+              </CardContent>
+            </Card>
+
+            <RAGSearch />
+            <RAGChat />
+            <Card className="border-white/20 bg-white/60 backdrop-blur-xl dark:border-white/10 dark:bg-white/10">
+              <CardHeader>
+                <CardTitle>🧠 Rebuild Embeddings</CardTitle>
+                <CardDescription>
+                  Use this after starting Chroma to index all existing notes.
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <form action={reindexNotes}>
+                  <Button type="submit" variant="outline">
+                    Reindex notes
+                  </Button>
+                </form>
+              </CardContent>
+            </Card>
+          </div>
 
           <Card className="border-white/20 bg-white/60 backdrop-blur-xl dark:border-white/10 dark:bg-white/10">
             <CardHeader>
