@@ -1,8 +1,17 @@
+"use client";
+
 import Link from "next/link";
+import { motion } from "motion/react";
 
 export function Footer() {
   return (
-    <footer className="border-t border-white/10 bg-white/60 py-12 backdrop-blur-xl dark:bg-white/5">
+    <motion.footer
+      className="border-t border-white/10 bg-white/60 py-12 backdrop-blur-xl dark:bg-white/5"
+      initial={{ opacity: 0 }}
+      whileInView={{ opacity: 1 }}
+      viewport={{ once: true, margin: "-100px" }}
+      transition={{ duration: 0.6 }}
+    >
       <div className="mx-auto max-w-7xl px-6">
         <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
           <div>
@@ -53,6 +62,6 @@ export function Footer() {
           <p>© {new Date().getFullYear()} Notes. Built with privacy in mind.</p>
         </div>
       </div>
-    </footer>
+    </motion.footer>
   );
 }

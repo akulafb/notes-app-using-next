@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { motion, AnimatePresence } from "motion/react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -68,22 +69,46 @@ export function RAGSearch() {
           </Button>
         </div>
 
-        {error && (
-          <div className="rounded-lg border border-red-200 bg-red-50/80 p-3 text-sm text-red-800 backdrop-blur-sm dark:border-red-800 dark:bg-red-900/20 dark:text-red-200">
-            {error}
-          </div>
-        )}
+        <AnimatePresence mode="wait">
+          {error && (
+            <motion.div
+              className="rounded-lg border border-red-200 bg-red-50/80 p-3 text-sm text-red-800 backdrop-blur-sm dark:border-red-800 dark:bg-red-900/20 dark:text-red-200"
+              initial={{ opacity: 0, y: -10 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -10 }}
+              transition={{ duration: 0.2 }}
+            >
+              {error}
+            </motion.div>
+          )}
+        </AnimatePresence>
 
         {results.length > 0 && (
-          <div className="space-y-2">
+          <motion.div
+            className="space-y-2"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.3 }}
+          >
             <p className="text-sm text-slate-600 dark:text-slate-300">
               Found {results.length} result{results.length === 1 ? "" : "s"}:
             </p>
             <div className="space-y-2 max-h-96 overflow-y-auto">
               {results.map((result, i) => (
-                <div
+                <motion.div
                   key={result.noteId}
                   className="rounded-lg border border-white/30 bg-white/70 p-3 text-sm shadow-sm backdrop-blur-sm dark:border-white/10 dark:bg-white/5"
+                  initial={{ opacity: 0, x: -20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{
+                    duration: 0.3,
+                    delay: i * 0.05,
+                    ease: [0.22, 1, 0.36, 1],
+                  }}
+                  whileHover={{
+                    x: 4,
+                    transition: { duration: 0.2 },
+                  }}
                 >
                   <div className="flex items-start justify-between gap-2">
                     <div className="flex-1">
@@ -100,10 +125,10 @@ export function RAGSearch() {
                       {(result.similarity * 100).toFixed(0)}% match
                     </span>
                   </div>
-                </div>
+                </motion.div>
               ))}
             </div>
-          </div>
+          </motion.div>
         )}
 
         {results.length === 0 && !loading && !error && query && (

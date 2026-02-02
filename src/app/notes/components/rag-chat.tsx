@@ -1,6 +1,7 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
+import { motion, AnimatePresence } from "motion/react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
@@ -22,6 +23,12 @@ export function RAGChat() {
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const messagesEndRef = useRef<HTMLDivElement>(null);
+
+  // Auto-scroll to bottom when new messages arrive
+  useEffect(() => {
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  }, [messages, loading]);
 
   async function handleSend() {
     if (!input.trim() || loading) return;
@@ -78,60 +85,111 @@ export function RAGChat() {
         {/* Chat messages */}
         <div className="space-y-4 max-h-96 overflow-y-auto min-h-[200px]">
           {messages.length === 0 && (
-            <p className="text-sm text-slate-500 dark:text-slate-400 text-center py-8">
-              Start a conversation! Ask questions about your notes.
-            </p>
-          )}
-          {messages.map((message, i) => (
-            <div
-              key={i}
-              className={`flex flex-col gap-2 ${
-                message.role === "user" ? "items-end" : "items-start"
-              }`}
+            <motion.p
+              className="text-sm text-slate-500 dark:text-slate-400 text-center py-8"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.3 }}
             >
-              <div
-                className={`rounded-lg p-3 max-w-[80%] ${
-                  message.role === "user"
-                    ? "bg-primary text-primary-foreground"
-                    : "bg-white/70 border border-white/30 text-slate-900 dark:bg-white/5 dark:border-white/10 dark:text-white"
+              Start a conversation! Ask questions about your notes.
+            </motion.p>
+          )}
+          <AnimatePresence>
+            {messages.map((message, i) => (
+              <motion.div
+                key={i}
+                className={`flex flex-col gap-2 ${
+                  message.role === "user" ? "items-end" : "items-start"
                 }`}
+                initial={{
+                  opacity: 0,
+                  x: message.role === "user" ? 20 : -20,
+                }}
+                animate={{ opacity: 1, x: 0 }}
+                exit={{ opacity: 0, scale: 0.95 }}
+                transition={{
+                  duration: 0.3,
+                  ease: [0.22, 1, 0.36, 1],
+                }}
               >
-                <p className="text-sm whitespace-pre-wrap">{message.content}</p>
-              </div>
-              {message.role === "assistant" &&
-                message.retrievedNotes &&
-                message.retrievedNotes.length > 0 && (
-                  <details className="text-xs text-slate-500 dark:text-slate-400 max-w-[80%]">
-                    <summary className="cursor-pointer hover:text-slate-700 dark:hover:text-slate-300">
-                      📚 Notes used ({message.retrievedNotes.length})
-                    </summary>
-                    <ul className="mt-2 space-y-1 pl-4">
-                      {message.retrievedNotes.map((note, j) => (
-                        <li key={j} className="line-clamp-2">
-                          {note}
-                        </li>
-                      ))}
-                    </ul>
-                  </details>
-                )}
-            </div>
-          ))}
+                <motion.div
+                  className={`rounded-lg p-3 max-w-[80%] ${
+                    message.role === "user"
+                      ? "bg-primary text-primary-foreground"
+                      : "bg-white/70 border border-white/30 text-slate-900 dark:bg-white/5 dark:border-white/10 dark:text-white"
+                  }`}
+                  whileHover={{ scale: 1.02 }}
+                  transition={{ duration: 0.2 }}
+                >
+                  <p className="text-sm whitespace-pre-wrap">
+                    {message.content}
+                  </p>
+                </motion.div>
+                {message.role === "assistant" &&
+                  message.retrievedNotes &&
+                  message.retrievedNotes.length > 0 && (
+                    <motion.details
+                      className="text-xs text-slate-500 dark:text-slate-400 max-w-[80%]"
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      transition={{ delay: 0.2 }}
+                    >
+                      <summary className="cursor-pointer hover:text-slate-700 dark:hover:text-slate-300">
+                        📚 Notes used ({message.retrievedNotes.length})
+                      </summary>
+                      <ul className="mt-2 space-y-1 pl-4">
+                        {message.retrievedNotes.map((note, j) => (
+                          <li key={j} className="line-clamp-2">
+                            {note}
+                          </li>
+                        ))}
+                      </ul>
+                    </motion.details>
+                  )}
+              </motion.div>
+            ))}
+          </AnimatePresence>
           {loading && (
-            <div className="flex items-start gap-2">
-              <div className="bg-white/70 border border-white/30 rounded-lg p-3 dark:bg-white/5 dark:border-white/10">
+            <motion.div
+              className="flex items-start gap-2"
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.2 }}
+            >
+              <motion.div
+                className="bg-white/70 border border-white/30 rounded-lg p-3 dark:bg-white/5 dark:border-white/10"
+                animate={{
+                  opacity: [1, 0.5, 1],
+                }}
+                transition={{
+                  duration: 1.5,
+                  repeat: Infinity,
+                  ease: "easeInOut",
+                }}
+              >
                 <p className="text-sm text-slate-600 dark:text-slate-300">
                   🤔 Thinking...
                 </p>
-              </div>
-            </div>
+              </motion.div>
+            </motion.div>
           )}
+          <div ref={messagesEndRef} />
         </div>
 
-        {error && (
-          <div className="rounded-lg border border-red-200 bg-red-50/80 p-3 text-sm text-red-800 backdrop-blur-sm dark:border-red-800 dark:bg-red-900/20 dark:text-red-200">
-            {error}
-          </div>
-        )}
+        <AnimatePresence>
+          {error && (
+            <motion.div
+              className="rounded-lg border border-red-200 bg-red-50/80 p-3 text-sm text-red-800 backdrop-blur-sm dark:border-red-800 dark:bg-red-900/20 dark:text-red-200"
+              initial={{ opacity: 0, y: -10 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -10 }}
+              transition={{ duration: 0.2 }}
+            >
+              {error}
+            </motion.div>
+          )}
+        </AnimatePresence>
 
         {/* Input */}
         <div className="flex gap-2">
