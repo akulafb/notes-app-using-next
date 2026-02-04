@@ -32,7 +32,7 @@ export function Features() {
   ];
 
   return (
-    <section className="py-24 px-6">
+    <section className="py-16 px-6">
       <div className="mx-auto max-w-4xl">
         <motion.div
           className="mb-12 text-center"

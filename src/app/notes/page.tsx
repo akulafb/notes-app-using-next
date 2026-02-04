@@ -45,8 +45,10 @@ export default async function NotesPage() {
   });
 
   return (
-    <main className="min-h-screen bg-background text-foreground">
-      <div className="mx-auto flex min-h-screen max-w-5xl flex-col gap-6 px-6 py-10">
+    <main className="relative min-h-screen bg-background text-foreground">
+      {/* Subtle dot pattern background */}
+      <div className="pointer-events-none absolute inset-0 bg-dot-pattern" />
+      <div className="relative mx-auto flex min-h-screen max-w-5xl flex-col gap-6 px-6 py-10">
         <PageHeader email={email} />
 
         <div className="grid gap-5 lg:grid-cols-[1.1fr_1.9fr]">

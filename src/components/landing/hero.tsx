@@ -29,7 +29,7 @@ const itemVariants = {
 
 export function Hero() {
   return (
-    <section className="relative flex min-h-[90vh] items-center justify-center px-6 py-24">
+    <section className="relative flex min-h-[70vh] items-center justify-center px-6 py-16">
       <motion.div
         className="mx-auto max-w-4xl text-center"
         variants={containerVariants}

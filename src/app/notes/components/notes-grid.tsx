@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { Reorder, AnimatePresence, useDragControls } from "motion/react";
 import { Button } from "@/components/ui/button";
 import { Slider } from "@/components/ui/slider";
@@ -15,6 +15,30 @@ interface Note {
 interface NotesGridProps {
   notes: Note[];
   deleteNote: (formData: FormData) => void;
+}
+
+// Soft pastel colors that work in both light and dark mode
+const PASTEL_COLORS = [
+  { light: "bg-rose-50 border-rose-200/60", dark: "dark:bg-rose-950/30 dark:border-rose-800/40" },
+  { light: "bg-sky-50 border-sky-200/60", dark: "dark:bg-sky-950/30 dark:border-sky-800/40" },
+  { light: "bg-amber-50 border-amber-200/60", dark: "dark:bg-amber-950/30 dark:border-amber-800/40" },
+  { light: "bg-emerald-50 border-emerald-200/60", dark: "dark:bg-emerald-950/30 dark:border-emerald-800/40" },
+  { light: "bg-violet-50 border-violet-200/60", dark: "dark:bg-violet-950/30 dark:border-violet-800/40" },
+  { light: "bg-cyan-50 border-cyan-200/60", dark: "dark:bg-cyan-950/30 dark:border-cyan-800/40" },
+  { light: "bg-fuchsia-50 border-fuchsia-200/60", dark: "dark:bg-fuchsia-950/30 dark:border-fuchsia-800/40" },
+  { light: "bg-lime-50 border-lime-200/60", dark: "dark:bg-lime-950/30 dark:border-lime-800/40" },
+];
+
+// Deterministic color based on note ID (so it's consistent across renders)
+function getColorForNote(noteId: string): string {
+  let hash = 0;
+  for (let i = 0; i < noteId.length; i++) {
+    hash = ((hash << 5) - hash) + noteId.charCodeAt(i);
+    hash = hash & hash;
+  }
+  const index = Math.abs(hash) % PASTEL_COLORS.length;
+  const color = PASTEL_COLORS[index];
+  return `${color.light} ${color.dark}`;
 }
 
 // Size presets: [gridCols, cardHeight]
@@ -43,6 +67,7 @@ interface ReorderableNoteItemProps {
   sizeConfig: { cols: string; height: string };
   sizeValue: number;
   deleteNote: (formData: FormData) => void;
+  colorClass: string;
 }
 
 function ReorderableNoteItem({
@@ -51,6 +76,7 @@ function ReorderableNoteItem({
   sizeConfig,
   sizeValue,
   deleteNote,
+  colorClass,
 }: ReorderableNoteItemProps) {
   const dragControls = useDragControls();
 
@@ -74,7 +100,7 @@ function ReorderableNoteItem({
       className="list-none"
     >
       <div
-        className={`group relative flex ${sizeConfig.height} flex-col rounded-lg border border-border bg-card p-4 transition-colors`}
+        className={`group relative flex ${sizeConfig.height} flex-col rounded-lg border p-4 transition-colors ${colorClass}`}
       >
         {/* Drag Handle */}
         <div
@@ -111,6 +137,15 @@ function ReorderableNoteItem({
 export function NotesGrid({ notes, deleteNote }: NotesGridProps) {
   const [orderedNotes, setOrderedNotes] = useState(notes);
   const [sizeValue, setSizeValue] = useState(50); // Default to medium size
+
+  // Memoize color assignments based on note IDs
+  const noteColors = useMemo(() => {
+    const colors: Record<string, string> = {};
+    notes.forEach((note) => {
+      colors[note.id] = getColorForNote(note.id);
+    });
+    return colors;
+  }, [notes]);
 
   // Sync orderedNotes when notes prop changes (e.g., new note added)
   useEffect(() => {
@@ -163,6 +198,7 @@ export function NotesGrid({ notes, deleteNote }: NotesGridProps) {
               sizeConfig={sizeConfig}
               sizeValue={sizeValue}
               deleteNote={deleteNote}
+              colorClass={noteColors[note.id] || "bg-card border-border"}
             />
           ))}
         </AnimatePresence>

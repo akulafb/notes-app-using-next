@@ -98,3 +98,15 @@ a {
     text-rendering: optimizeLegibility;
   }
 }
+
+/* Subtle dot pattern background - Motion.dev inspired but lighter */
+.bg-dot-pattern {
+  background-image: radial-gradient(circle, hsl(220 10% 75% / 0.4) 1px, transparent 1px);
+  background-size: 24px 24px;
+}
+
+@media (prefers-color-scheme: dark) {
+  .bg-dot-pattern {
+    background-image: radial-gradient(circle, hsl(220 10% 30% / 0.5) 1px, transparent 1px);
+  }
+}
