@@ -45,3 +45,4 @@ next-env.d.ts
 *.log
 chroma.log
 chroma_db/
+/chroma_db
