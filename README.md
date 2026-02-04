@@ -48,11 +48,12 @@ Open [http://localhost:3000](http://localhost:3000).
 - **User scoping**: Each user gets their own ChromaDB collection (`notes_user_{userId}`).
 - **Fire-and-forget**: Embeddings generated asynchronously to avoid blocking note creation.
 
-### 5) UI with shadcn/ui
+### 5) UI with shadcn/ui + Motion
 - **Component library**: Pre-built, customizable components (Button, Card, Input, etc.).
 - **Glassmorphism**: Backdrop blur effects with transparent backgrounds.
 - **Dark mode**: System theme detection with CSS variables.
 - **Responsive**: Mobile-first design with Tailwind CSS.
+- **Motion animations**: Scroll, hover, and layout animations on the landing page and notes grid using [Motion](https://motion.dev) for smooth, production-grade transitions.
 
 ### 6) Real‑world integration gotchas
 - Prisma v7 requires:
