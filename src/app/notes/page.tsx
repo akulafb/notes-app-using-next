@@ -45,14 +45,14 @@ export default async function NotesPage() {
   });
 
   return (
-    <main className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-slate-100 text-foreground dark:from-slate-950 dark:via-slate-900 dark:to-slate-800">
-      <div className="mx-auto flex min-h-screen max-w-5xl flex-col gap-8 px-6 py-12">
+    <main className="min-h-screen bg-background text-foreground">
+      <div className="mx-auto flex min-h-screen max-w-5xl flex-col gap-6 px-6 py-10">
         <PageHeader email={email} />
 
-        <div className="grid gap-8 lg:grid-cols-[1.1fr_1.9fr]">
-          <div className="space-y-6">
+        <div className="grid gap-5 lg:grid-cols-[1.1fr_1.9fr]">
+          <div className="space-y-4">
             <AnimatedCard delay={0.1}>
-              <Card className="border-white/20 bg-white/60 backdrop-blur-xl dark:border-white/10 dark:bg-white/10">
+              <Card>
                 <CardHeader>
                   <CardTitle>New note</CardTitle>
                   <CardDescription>
@@ -78,9 +78,9 @@ export default async function NotesPage() {
               <RAGChat />
             </AnimatedCard>
             <AnimatedCard delay={0.4}>
-              <Card className="border-white/20 bg-white/60 backdrop-blur-xl dark:border-white/10 dark:bg-white/10">
+              <Card>
                 <CardHeader>
-                  <CardTitle>🧠 Rebuild Embeddings</CardTitle>
+                  <CardTitle>Rebuild Embeddings</CardTitle>
                   <CardDescription>
                     Use this after starting Chroma to index all existing notes.
                   </CardDescription>
@@ -97,7 +97,7 @@ export default async function NotesPage() {
           </div>
 
           <AnimatedCard delay={0.15}>
-            <Card className="border-white/20 bg-white/60 backdrop-blur-xl dark:border-white/10 dark:bg-white/10">
+            <Card>
               <CardHeader>
                 <CardTitle>All notes</CardTitle>
                 <CardDescription>

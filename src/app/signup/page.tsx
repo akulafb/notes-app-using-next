@@ -48,9 +48,9 @@ export default function SignUpPage() {
   }
 
   return (
-    <main className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-slate-100 text-foreground dark:from-slate-950 dark:via-slate-900 dark:to-slate-800">
+    <main className="min-h-screen bg-background text-foreground">
       <div className="mx-auto flex min-h-screen max-w-md items-center justify-center px-6 py-12">
-        <Card className="w-full border-white/20 bg-white/60 shadow-2xl backdrop-blur-xl dark:border-white/10 dark:bg-white/10">
+        <Card className="w-full border-border bg-card">
           <CardHeader className="space-y-1">
             <CardTitle className="text-2xl">Create account</CardTitle>
             <CardDescription>
@@ -59,7 +59,7 @@ export default function SignUpPage() {
           </CardHeader>
           <CardContent>
             {error && (
-              <div className="mb-4 rounded-lg border border-red-200 bg-red-50/80 p-3 text-sm text-red-800 backdrop-blur-sm dark:border-red-800 dark:bg-red-900/20 dark:text-red-200">
+              <div className="mb-4 rounded-lg border border-red-200 bg-red-50 p-3 text-sm text-red-800 dark:border-red-900 dark:bg-red-950 dark:text-red-200">
                 {error}
               </div>
             )}
@@ -84,7 +84,7 @@ export default function SignUpPage() {
                   minLength={6}
                   required
                 />
-                <p className="text-xs text-slate-500 dark:text-slate-400">
+                <p className="text-xs text-muted-foreground">
                   Must be at least 6 characters
                 </p>
               </div>
@@ -92,11 +92,11 @@ export default function SignUpPage() {
                 Create account
               </Button>
             </form>
-            <p className="mt-6 text-center text-sm text-slate-600 dark:text-slate-300">
+            <p className="mt-6 text-center text-sm text-muted-foreground">
               Have an account?{" "}
               <Link
                 href="/signin"
-                className="font-medium text-slate-900 underline underline-offset-4 hover:text-slate-700 dark:text-white dark:hover:text-slate-200"
+                className="font-medium text-foreground underline underline-offset-4 transition-colors hover:text-accent"
               >
                 Sign in
               </Link>

@@ -52,9 +52,9 @@ export function RAGSearch() {
   }
 
   return (
-    <Card className="border-white/20 bg-white/60 backdrop-blur-xl dark:border-white/10 dark:bg-white/10">
+    <Card className="border-border bg-card">
       <CardHeader>
-        <CardTitle>🔍 Semantic Search</CardTitle>
+        <CardTitle>Semantic Search</CardTitle>
       </CardHeader>
       <CardContent className="space-y-4">
         <div className="flex gap-2">
@@ -65,18 +65,18 @@ export function RAGSearch() {
             onKeyDown={(e) => e.key === "Enter" && handleSearch()}
           />
           <Button onClick={handleSearch} disabled={loading}>
-            {loading ? "Searching..." : "Search"}
+            {loading ? "..." : "Search"}
           </Button>
         </div>
 
         <AnimatePresence mode="wait">
           {error && (
             <motion.div
-              className="rounded-lg border border-red-200 bg-red-50/80 p-3 text-sm text-red-800 backdrop-blur-sm dark:border-red-800 dark:bg-red-900/20 dark:text-red-200"
+              className="rounded-lg border border-red-200 bg-red-50 p-3 text-sm text-red-800 dark:border-red-900 dark:bg-red-950 dark:text-red-200"
               initial={{ opacity: 0, y: -10 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -10 }}
-              transition={{ duration: 0.2 }}
+              transition={{ duration: 0.15 }}
             >
               {error}
             </motion.div>
@@ -88,41 +88,36 @@ export function RAGSearch() {
             className="space-y-2"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            transition={{ duration: 0.3 }}
+            transition={{ duration: 0.2 }}
           >
-            <p className="text-sm text-slate-600 dark:text-slate-300">
+            <p className="text-sm text-muted-foreground">
               Found {results.length} result{results.length === 1 ? "" : "s"}:
             </p>
             <div className="space-y-2 max-h-96 overflow-y-auto">
               {results.map((result, i) => (
                 <motion.div
                   key={result.noteId}
-                  className="rounded-lg border border-white/30 bg-white/70 p-3 text-sm shadow-sm backdrop-blur-sm dark:border-white/10 dark:bg-white/5"
-                  initial={{ opacity: 0, x: -20 }}
-                  animate={{ opacity: 1, x: 0 }}
+                  className="rounded-lg border border-border bg-card p-3 text-sm"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
                   transition={{
-                    duration: 0.3,
-                    delay: i * 0.05,
-                    ease: [0.22, 1, 0.36, 1],
-                  }}
-                  whileHover={{
-                    x: 4,
-                    transition: { duration: 0.2 },
+                    duration: 0.2,
+                    delay: i * 0.03,
                   }}
                 >
                   <div className="flex items-start justify-between gap-2">
                     <div className="flex-1">
                       {result.metadata.title && (
-                        <p className="font-semibold text-slate-900 dark:text-white mb-1">
+                        <p className="font-medium text-card-foreground mb-1">
                           {result.metadata.title}
                         </p>
                       )}
-                      <p className="text-slate-600 dark:text-slate-300 line-clamp-3">
+                      <p className="text-muted-foreground line-clamp-3">
                         {result.text}
                       </p>
                     </div>
-                    <span className="text-xs text-slate-500 dark:text-slate-400 whitespace-nowrap">
-                      {(result.similarity * 100).toFixed(0)}% match
+                    <span className="text-xs text-muted-foreground whitespace-nowrap">
+                      {(result.similarity * 100).toFixed(0)}%
                     </span>
                   </div>
                 </motion.div>
@@ -132,7 +127,7 @@ export function RAGSearch() {
         )}
 
         {results.length === 0 && !loading && !error && query && (
-          <p className="text-sm text-slate-500 dark:text-slate-400 text-center py-4">
+          <p className="text-sm text-muted-foreground text-center py-4">
             No results found. Try a different query.
           </p>
         )}

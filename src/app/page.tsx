@@ -6,7 +6,9 @@ import { Navbar } from "@/components/landing/navbar";
 
 export default function HomePage() {
   return (
-    <main className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-slate-100 text-foreground dark:from-slate-950 dark:via-slate-900 dark:to-slate-800">
+    <main className="relative min-h-screen bg-background text-foreground">
+      {/* Subtle radial gradient using accent color */}
+      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_80%_50%_at_50%_-10%,hsl(173_80%_40%/0.08),transparent)] dark:bg-[radial-gradient(ellipse_80%_50%_at_50%_-10%,hsl(173_80%_40%/0.15),transparent)]" />
       <Navbar />
       <Hero />
       <Features />

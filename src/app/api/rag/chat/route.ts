@@ -63,7 +63,7 @@ export async function POST(request: NextRequest) {
     // Extract retrieved notes
     const retrievedNotes: string[] = [];
     if (results.documents && results.documents[0]) {
-      retrievedNotes.push(...results.documents[0]);
+      retrievedNotes.push(...results.documents[0].filter((doc): doc is string => doc !== null));
     }
 
     // Build prompt with retrieved notes

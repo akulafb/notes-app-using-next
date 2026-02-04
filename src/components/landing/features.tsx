@@ -1,6 +1,7 @@
 "use client";
 
 import { motion } from "motion/react";
+import { Search, MessageSquare, Shield, Sparkles } from "lucide-react";
 
 export function Features() {
   const features = [
@@ -8,75 +9,64 @@ export function Features() {
       title: "Semantic Search",
       description:
         "Find notes by meaning, not just keywords. Powered by vector embeddings.",
-      icon: "🔍",
+      icon: Search,
     },
     {
       title: "AI Chat",
       description:
         "Ask questions and get answers based on your notes using RAG technology.",
-      icon: "💬",
+      icon: MessageSquare,
     },
     {
       title: "Secure & Private",
       description:
         "Your data stays local. Built with Next.js, Prisma, and ChromaDB.",
-      icon: "🔒",
+      icon: Shield,
     },
     {
       title: "Beautiful UI",
       description:
-        "Glassmorphism design that adapts to your system theme preferences.",
-      icon: "✨",
+        "Clean design that adapts to your system theme preferences.",
+      icon: Sparkles,
     },
   ];
 
   return (
     <section className="py-24 px-6">
-      <div className="mx-auto max-w-7xl">
+      <div className="mx-auto max-w-4xl">
         <motion.div
-          className="mb-16 text-center"
+          className="mb-12 text-center"
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-100px" }}
-          transition={{ duration: 0.6 }}
+          transition={{ duration: 0.5, ease: [0.25, 0.4, 0.25, 1] as const }}
         >
-          <h2 className="mb-4 text-3xl font-bold text-slate-900 dark:text-white sm:text-4xl">
+          <h2 className="mb-3 text-2xl font-semibold tracking-tight sm:text-3xl">
             Everything you need
           </h2>
-          <p className="text-lg text-slate-600 dark:text-slate-300">
+          <p className="text-muted-foreground">
             Powerful features to help you capture and retrieve knowledge
           </p>
         </motion.div>
-        <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
           {features.map((feature, index) => (
             <motion.div
               key={index}
-              className="rounded-2xl border border-white/20 bg-white/60 p-6 shadow-lg backdrop-blur-xl transition-all hover:shadow-xl dark:border-white/10 dark:bg-white/10"
-              initial={{ opacity: 0, y: 30, scale: 0.95 }}
-              whileInView={{ opacity: 1, y: 0, scale: 1 }}
+              className="group rounded-lg border border-border bg-card p-5 transition-colors hover:border-accent/50 hover:bg-accent/5"
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-50px" }}
               transition={{
-                duration: 0.5,
+                duration: 0.4,
                 delay: index * 0.1,
-                ease: [0.22, 1, 0.36, 1],
-              }}
-              whileHover={{
-                scale: 1.05,
-                y: -5,
-                transition: { duration: 0.2 },
+                ease: [0.25, 0.4, 0.25, 1] as const,
               }}
             >
-              <motion.div
-                className="mb-4 text-4xl"
-                whileHover={{ rotate: [0, -5, 5, 0], scale: 1.05 }}
-                transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
-              >
-                {feature.icon}
-              </motion.div>
-              <h3 className="mb-2 text-xl font-semibold text-slate-900 dark:text-white">
+              <feature.icon className="mb-3 h-5 w-5 text-accent" />
+              <h3 className="mb-1.5 text-sm font-medium">
                 {feature.title}
               </h3>
-              <p className="text-slate-600 dark:text-slate-300">
+              <p className="text-sm text-muted-foreground leading-relaxed">
                 {feature.description}
               </p>
             </motion.div>

@@ -22,7 +22,7 @@ function getChromaClient(): ChromaClient {
 }
 
 // We provide embeddings manually, so don't use a default embedding function.
-const embeddingFunction = null;
+const embeddingFunction = undefined;
 
 /**
  * Check if ChromaDB server is available
@@ -93,7 +93,7 @@ export async function getUserCollection(userId: string) {
             name: collectionName,
             embeddingFunction,
           });
-        } catch (finalError) {
+        } catch (finalError: any) {
           // If still failing with embedding function error, delete and recreate
           const finalErrorMsg = finalError.message || String(finalError);
           if (

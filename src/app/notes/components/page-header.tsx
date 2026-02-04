@@ -12,19 +12,19 @@ export function PageHeader({ email }: PageHeaderProps) {
   return (
     <motion.div
       className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between"
-      initial={{ opacity: 0, y: -20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.4 }}
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 0.3 }}
     >
       <div className="space-y-1">
-        <h1 className="text-3xl font-semibold tracking-tight text-slate-900 dark:text-white">
+        <h1 className="text-2xl font-semibold tracking-tight text-foreground">
           Your notes
         </h1>
-        <p className="text-sm text-slate-600 dark:text-slate-300">
+        <p className="text-sm text-muted-foreground">
           Signed in as {email}.
         </p>
       </div>
-      <Button asChild variant="outline">
+      <Button asChild variant="outline" size="sm">
         <Link href="/api/auth/signout">Sign out</Link>
       </Button>
     </motion.div>

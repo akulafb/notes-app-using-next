@@ -59,45 +59,44 @@ function ReorderableNoteItem({
       value={note}
       dragControls={dragControls}
       dragListener={false}
-      initial={{ opacity: 0, y: 20, scale: 0.95 }}
-      animate={{ opacity: 1, y: 0, scale: 1 }}
-      exit={{ opacity: 0, scale: 0.8, height: 0 }}
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0, height: 0 }}
       transition={{
-        duration: 0.3,
-        delay: index * 0.05,
-        ease: [0.22, 1, 0.36, 1],
+        duration: 0.2,
+        delay: index * 0.03,
       }}
       whileDrag={{
-        scale: 1.05,
+        scale: 1.02,
         zIndex: 50,
-        boxShadow: "0 10px 25px rgba(0,0,0,0.2)",
+        boxShadow: "0 4px 12px rgba(0,0,0,0.15)",
       }}
       className="list-none"
     >
       <div
-        className={`group relative flex ${sizeConfig.height} flex-col rounded-xl border border-white/30 bg-white/70 p-4 shadow-sm backdrop-blur-sm transition-all duration-300 dark:border-white/10 dark:bg-white/5`}
+        className={`group relative flex ${sizeConfig.height} flex-col rounded-lg border border-border bg-card p-4 transition-colors`}
       >
         {/* Drag Handle */}
         <div
           onPointerDown={(e) => dragControls.start(e)}
-          className="absolute left-2 top-2 cursor-grab active:cursor-grabbing text-slate-400 hover:text-slate-600 dark:text-slate-500 dark:hover:text-slate-300"
+          className="absolute left-2 top-2 cursor-grab active:cursor-grabbing text-muted-foreground transition-colors hover:text-foreground"
         >
           <GripVertical className="h-4 w-4" />
         </div>
 
         <div className="flex flex-1 flex-col gap-2 overflow-hidden pl-6">
-          <h3 className={`line-clamp-2 text-sm font-semibold text-slate-900 dark:text-white ${sizeValue >= 75 ? "text-xs" : ""}`}>
+          <h3 className={`line-clamp-2 text-sm font-medium text-card-foreground ${sizeValue >= 75 ? "text-xs" : ""}`}>
             {note.title}
           </h3>
           {note.content && (
-            <p className={`${sizeValue >= 75 ? "line-clamp-2 text-xs" : sizeValue >= 50 ? "line-clamp-3 text-xs" : "line-clamp-4 text-sm"} flex-1 text-slate-600 dark:text-slate-300`}>
+            <p className={`${sizeValue >= 75 ? "line-clamp-2 text-xs" : sizeValue >= 50 ? "line-clamp-3 text-xs" : "line-clamp-4 text-sm"} flex-1 text-muted-foreground`}>
               {note.content}
             </p>
           )}
         </div>
         <form
           action={deleteNote}
-          className="mt-3 flex justify-end opacity-0 transition-opacity group-hover:opacity-100"
+          className="mt-3 flex justify-end opacity-0 transition-opacity duration-150 group-hover:opacity-100"
         >
           <input type="hidden" name="id" value={note.id} />
           <Button type="submit" size="sm" variant="destructive">
@@ -130,8 +129,8 @@ export function NotesGrid({ notes, deleteNote }: NotesGridProps) {
   return (
     <div className="space-y-4">
       {/* Size Control */}
-      <div className="flex items-center gap-4 rounded-lg border border-white/20 bg-white/40 p-3 backdrop-blur-sm dark:border-white/10 dark:bg-white/5">
-        <label className="text-sm font-medium text-slate-700 dark:text-slate-300 whitespace-nowrap">
+      <div className="flex items-center gap-4 rounded-lg border border-border bg-card p-3">
+        <label className="text-sm font-medium text-card-foreground whitespace-nowrap">
           Size:
         </label>
         <Slider
@@ -142,7 +141,7 @@ export function NotesGrid({ notes, deleteNote }: NotesGridProps) {
           step={25}
           className="flex-1"
         />
-        <span className="text-xs text-slate-500 dark:text-slate-400 min-w-[3rem] text-right">
+        <span className="text-xs text-muted-foreground min-w-[3rem] text-right">
           {sizeValue === 0 ? "Large" : sizeValue === 25 ? "Medium-Large" : sizeValue === 50 ? "Medium" : sizeValue === 75 ? "Small" : "Compact"}
         </span>
       </div>
@@ -152,7 +151,7 @@ export function NotesGrid({ notes, deleteNote }: NotesGridProps) {
         axis="y"
         values={orderedNotes}
         onReorder={setOrderedNotes}
-        className={`grid ${sizeConfig.cols} gap-4`}
+        className={`grid ${sizeConfig.cols} gap-3`}
         as="ul"
       >
         <AnimatePresence mode="popLayout">

@@ -31,64 +31,65 @@ export function FAQ() {
 
   return (
     <section className="py-24 px-6">
-      <div className="mx-auto max-w-3xl">
+      <div className="mx-auto max-w-2xl">
         <motion.div
-          className="mb-16 text-center"
+          className="mb-10 text-center"
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-100px" }}
-          transition={{ duration: 0.6 }}
+          transition={{ duration: 0.5, ease: [0.25, 0.4, 0.25, 1] as const }}
         >
-          <h2 className="mb-4 text-3xl font-bold text-slate-900 dark:text-white sm:text-4xl">
+          <h2 className="mb-3 text-2xl font-semibold tracking-tight sm:text-3xl">
             Frequently asked questions
           </h2>
-          <p className="text-lg text-slate-600 dark:text-slate-300">
+          <p className="text-muted-foreground">
             Everything you need to know about Notes
           </p>
         </motion.div>
-        <div className="space-y-4">
+        <div className="space-y-2">
           {faqs.map((faq, index) => (
             <motion.div
               key={index}
-              className="rounded-xl border border-white/20 bg-white/60 p-6 shadow-sm backdrop-blur-xl dark:border-white/10 dark:bg-white/10"
+              className="rounded-lg border border-border bg-card p-4"
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-50px" }}
               transition={{
                 duration: 0.4,
-                delay: index * 0.1,
+                delay: index * 0.08,
+                ease: [0.25, 0.4, 0.25, 1] as const,
               }}
             >
-              <motion.button
+              <button
                 onClick={() =>
                   setOpenIndex(openIndex === index ? null : index)
                 }
                 className="flex w-full items-center justify-between text-left"
-                whileHover={{ x: 4 }}
-                transition={{ duration: 0.2 }}
               >
-                <h3 className="text-lg font-semibold text-slate-900 dark:text-white">
+                <h3 className="text-sm font-medium">
                   {faq.question}
                 </h3>
-                <motion.span
-                  className="text-2xl text-slate-600 dark:text-slate-300"
-                  animate={{ rotate: openIndex === index ? 180 : 0 }}
-                  transition={{ duration: 0.3 }}
+                <span
+                  className={`ml-4 text-muted-foreground transition-transform duration-200 ${
+                    openIndex === index ? "rotate-45" : ""
+                  }`}
                 >
                   +
-                </motion.span>
-              </motion.button>
+                </span>
+              </button>
               <AnimatePresence>
                 {openIndex === index && (
-                  <motion.p
-                    className="mt-4 text-slate-600 dark:text-slate-300"
+                  <motion.div
                     initial={{ height: 0, opacity: 0 }}
                     animate={{ height: "auto", opacity: 1 }}
                     exit={{ height: 0, opacity: 0 }}
-                    transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
+                    transition={{ duration: 0.25, ease: [0.25, 0.4, 0.25, 1] as const }}
+                    className="overflow-hidden"
                   >
-                    {faq.answer}
-                  </motion.p>
+                    <p className="pt-3 text-sm text-muted-foreground leading-relaxed">
+                      {faq.answer}
+                    </p>
+                  </motion.div>
                 )}
               </AnimatePresence>
             </motion.div>

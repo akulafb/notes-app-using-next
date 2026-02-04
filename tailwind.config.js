@@ -55,6 +55,14 @@ module.exports = {
   				'4': 'hsl(var(--chart-4))',
   				'5': 'hsl(var(--chart-5))'
   			}
+  		},
+  		fontFamily: {
+  			sans: ['var(--font-inter)', 'system-ui', '-apple-system', 'sans-serif'],
+  			mono: ['var(--font-mono)', 'ui-monospace', 'monospace'],
+  		},
+  		letterSpacing: {
+  			tighter: '-0.03em',
+  			tight: '-0.015em',
   		}
   	}
   },

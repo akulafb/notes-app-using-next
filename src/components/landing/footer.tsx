@@ -1,67 +1,58 @@
-"use client";
-
 import Link from "next/link";
-import { motion } from "motion/react";
 
 export function Footer() {
   return (
-    <motion.footer
-      className="border-t border-white/10 bg-white/60 py-12 backdrop-blur-xl dark:bg-white/5"
-      initial={{ opacity: 0 }}
-      whileInView={{ opacity: 1 }}
-      viewport={{ once: true, margin: "-100px" }}
-      transition={{ duration: 0.6 }}
-    >
-      <div className="mx-auto max-w-7xl px-6">
+    <footer className="border-t border-border py-12">
+      <div className="mx-auto max-w-4xl px-6">
         <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
           <div>
-            <h3 className="mb-4 text-lg font-semibold text-slate-900 dark:text-white">
+            <h3 className="mb-3 font-semibold tracking-tight">
               Notes
             </h3>
-            <p className="text-sm text-slate-600 dark:text-slate-300">
+            <p className="text-sm text-muted-foreground">
               Your intelligent note-taking companion powered by AI.
             </p>
           </div>
           <div>
-            <h4 className="mb-4 text-sm font-semibold text-slate-900 dark:text-white">
+            <h4 className="mb-3 text-sm font-medium">
               Product
             </h4>
-            <ul className="space-y-2 text-sm text-slate-600 dark:text-slate-300">
+            <ul className="space-y-2 text-sm text-muted-foreground">
               <li>
-                <Link href="/signup" className="hover:text-slate-900 dark:hover:text-white">
+                <Link href="/signup" className="transition-colors hover:text-foreground">
                   Sign up
                 </Link>
               </li>
               <li>
-                <Link href="/signin" className="hover:text-slate-900 dark:hover:text-white">
+                <Link href="/signin" className="transition-colors hover:text-foreground">
                   Sign in
                 </Link>
               </li>
             </ul>
           </div>
           <div>
-            <h4 className="mb-4 text-sm font-semibold text-slate-900 dark:text-white">
+            <h4 className="mb-3 text-sm font-medium">
               Technology
             </h4>
-            <ul className="space-y-2 text-sm text-slate-600 dark:text-slate-300">
+            <ul className="space-y-2 text-sm text-muted-foreground">
               <li>Next.js</li>
               <li>ChromaDB</li>
               <li>Ollama</li>
             </ul>
           </div>
           <div>
-            <h4 className="mb-4 text-sm font-semibold text-slate-900 dark:text-white">
+            <h4 className="mb-3 text-sm font-medium">
               Privacy
             </h4>
-            <p className="text-sm text-slate-600 dark:text-slate-300">
+            <p className="text-sm text-muted-foreground">
               All data stays local. No cloud, no tracking, no sharing.
             </p>
           </div>
         </div>
-        <div className="mt-12 border-t border-white/10 pt-8 text-center text-sm text-slate-600 dark:text-slate-300">
+        <div className="mt-10 border-t border-border pt-6 text-center text-sm text-muted-foreground">
           <p>© {new Date().getFullYear()} Notes. Built with privacy in mind.</p>
         </div>
       </div>
-    </motion.footer>
+    </footer>
   );
 }

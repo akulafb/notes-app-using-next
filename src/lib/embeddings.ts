@@ -1,6 +1,6 @@
-import { pipeline, Pipeline } from "@xenova/transformers";
+import { pipeline, FeatureExtractionPipeline } from "@xenova/transformers";
 
-let embeddingPipeline: Pipeline | null = null;
+let embeddingPipeline: FeatureExtractionPipeline | null = null;
 
 /**
  * Load the embedding model (cached after first load)

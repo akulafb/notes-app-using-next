@@ -74,25 +74,20 @@ export function RAGChat() {
   }
 
   return (
-    <Card className="border-white/20 bg-white/60 backdrop-blur-xl dark:border-white/10 dark:bg-white/10">
+    <Card className="border-border bg-card">
       <CardHeader>
-        <CardTitle>💬 Chat with Your Notes</CardTitle>
+        <CardTitle>Chat with Your Notes</CardTitle>
         <CardDescription>
           Ask questions and get answers based on your notes
         </CardDescription>
       </CardHeader>
       <CardContent className="space-y-4">
         {/* Chat messages */}
-        <div className="space-y-4 max-h-96 overflow-y-auto min-h-[200px]">
+        <div className="space-y-3 max-h-96 overflow-y-auto min-h-[200px]">
           {messages.length === 0 && (
-            <motion.p
-              className="text-sm text-slate-500 dark:text-slate-400 text-center py-8"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 0.3 }}
-            >
+            <p className="text-sm text-muted-foreground text-center py-8">
               Start a conversation! Ask questions about your notes.
-            </motion.p>
+            </p>
           )}
           <AnimatePresence>
             {messages.map((message, i) => (
@@ -101,41 +96,28 @@ export function RAGChat() {
                 className={`flex flex-col gap-2 ${
                   message.role === "user" ? "items-end" : "items-start"
                 }`}
-                initial={{
-                  opacity: 0,
-                  x: message.role === "user" ? 20 : -20,
-                }}
-                animate={{ opacity: 1, x: 0 }}
-                exit={{ opacity: 0, scale: 0.95 }}
-                transition={{
-                  duration: 0.3,
-                  ease: [0.22, 1, 0.36, 1],
-                }}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.15 }}
               >
-                <motion.div
+                <div
                   className={`rounded-lg p-3 max-w-[80%] ${
                     message.role === "user"
                       ? "bg-primary text-primary-foreground"
-                      : "bg-white/70 border border-white/30 text-slate-900 dark:bg-white/5 dark:border-white/10 dark:text-white"
+                      : "bg-card border border-border text-card-foreground"
                   }`}
-                  whileHover={{ scale: 1.02 }}
-                  transition={{ duration: 0.2 }}
                 >
                   <p className="text-sm whitespace-pre-wrap">
                     {message.content}
                   </p>
-                </motion.div>
+                </div>
                 {message.role === "assistant" &&
                   message.retrievedNotes &&
                   message.retrievedNotes.length > 0 && (
-                    <motion.details
-                      className="text-xs text-slate-500 dark:text-slate-400 max-w-[80%]"
-                      initial={{ opacity: 0 }}
-                      animate={{ opacity: 1 }}
-                      transition={{ delay: 0.2 }}
-                    >
-                      <summary className="cursor-pointer hover:text-slate-700 dark:hover:text-slate-300">
-                        📚 Notes used ({message.retrievedNotes.length})
+                    <details className="text-xs text-muted-foreground max-w-[80%]">
+                      <summary className="cursor-pointer transition-colors hover:text-foreground">
+                        Notes used ({message.retrievedNotes.length})
                       </summary>
                       <ul className="mt-2 space-y-1 pl-4">
                         {message.retrievedNotes.map((note, j) => (
@@ -144,35 +126,19 @@ export function RAGChat() {
                           </li>
                         ))}
                       </ul>
-                    </motion.details>
+                    </details>
                   )}
               </motion.div>
             ))}
           </AnimatePresence>
           {loading && (
-            <motion.div
-              className="flex items-start gap-2"
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 0.2 }}
-            >
-              <motion.div
-                className="bg-white/70 border border-white/30 rounded-lg p-3 dark:bg-white/5 dark:border-white/10"
-                animate={{
-                  opacity: [1, 0.5, 1],
-                }}
-                transition={{
-                  duration: 1.5,
-                  repeat: Infinity,
-                  ease: "easeInOut",
-                }}
-              >
-                <p className="text-sm text-slate-600 dark:text-slate-300">
-                  🤔 Thinking...
+            <div className="flex items-start gap-2">
+              <div className="bg-card border border-border rounded-lg p-3 animate-pulse">
+                <p className="text-sm text-muted-foreground">
+                  Thinking...
                 </p>
-              </motion.div>
-            </motion.div>
+              </div>
+            </div>
           )}
           <div ref={messagesEndRef} />
         </div>
@@ -180,11 +146,11 @@ export function RAGChat() {
         <AnimatePresence>
           {error && (
             <motion.div
-              className="rounded-lg border border-red-200 bg-red-50/80 p-3 text-sm text-red-800 backdrop-blur-sm dark:border-red-800 dark:bg-red-900/20 dark:text-red-200"
+              className="rounded-lg border border-red-200 bg-red-50 p-3 text-sm text-red-800 dark:border-red-900 dark:bg-red-950 dark:text-red-200"
               initial={{ opacity: 0, y: -10 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -10 }}
-              transition={{ duration: 0.2 }}
+              transition={{ duration: 0.15 }}
             >
               {error}
             </motion.div>
