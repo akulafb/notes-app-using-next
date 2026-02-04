@@ -46,3 +46,5 @@ next-env.d.ts
 chroma.log
 chroma_db/
 /chroma_db
+/chroma_db
+chroma_db/529f999b-674a-4a8f-bb35-7929b0e38c9d/data_level0.bin
